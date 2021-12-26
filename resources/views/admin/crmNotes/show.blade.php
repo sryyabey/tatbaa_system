@@ -39,6 +39,14 @@
                             {{ $crmNote->note }}
                         </td>
                     </tr>
+                    <tr>
+                        <th>
+                            {{ trans('cruds.crmNote.fields.user') }}
+                        </th>
+                        <td>
+                            {{ $crmNote->user->name ?? '' }}
+                        </td>
+                    </tr>
                 </tbody>
             </table>
             <div class="form-group">

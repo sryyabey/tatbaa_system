@@ -8,6 +8,7 @@ use App\Http\Requests\StoreCrmNoteRequest;
 use App\Http\Requests\UpdateCrmNoteRequest;
 use App\Models\CrmCustomer;
 use App\Models\CrmNote;
+use App\Models\User;
 use Gate;
 use Illuminate\Http\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -18,7 +19,7 @@ class CrmNoteController extends Controller
     {
         abort_if(Gate::denies('crm_note_access'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
-        $crmNotes = CrmNote::with(['customer'])->get();
+        $crmNotes = CrmNote::with(['customer', 'user'])->get();
 
         return view('frontend.crmNotes.index', compact('crmNotes'));
     }
@@ -29,7 +30,9 @@ class CrmNoteController extends Controller
 
         $customers = CrmCustomer::pluck('first_name', 'id')->prepend(trans('global.pleaseSelect'), '');
 
-        return view('frontend.crmNotes.create', compact('customers'));
+        $users = User::pluck('name', 'id')->prepend(trans('global.pleaseSelect'), '');
+
+        return view('frontend.crmNotes.create', compact('customers', 'users'));
     }
 
     public function store(StoreCrmNoteRequest $request)
@@ -45,9 +48,11 @@ class CrmNoteController extends Controller
 
         $customers = CrmCustomer::pluck('first_name', 'id')->prepend(trans('global.pleaseSelect'), '');
 
-        $crmNote->load('customer');
+        $users = User::pluck('name', 'id')->prepend(trans('global.pleaseSelect'), '');
 
-        return view('frontend.crmNotes.edit', compact('customers', 'crmNote'));
+        $crmNote->load('customer', 'user');
+
+        return view('frontend.crmNotes.edit', compact('crmNote', 'customers', 'users'));
     }
 
     public function update(UpdateCrmNoteRequest $request, CrmNote $crmNote)
@@ -61,7 +66,7 @@ class CrmNoteController extends Controller
     {
         abort_if(Gate::denies('crm_note_show'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
-        $crmNote->load('customer');
+        $crmNote->load('customer', 'user');
 
         return view('frontend.crmNotes.show', compact('crmNote'));
     }

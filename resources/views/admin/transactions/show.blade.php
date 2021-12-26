@@ -47,6 +47,14 @@
                             {{ $transaction->user->name ?? '' }}
                         </td>
                     </tr>
+                    <tr>
+                        <th>
+                            {{ trans('cruds.transaction.fields.customer') }}
+                        </th>
+                        <td>
+                            {{ $transaction->customer->first_name ?? '' }}
+                        </td>
+                    </tr>
                 </tbody>
             </table>
             <div class="form-group">

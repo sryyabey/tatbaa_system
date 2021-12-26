@@ -132,6 +132,11 @@
                                             {{ trans('cruds.tracking.title') }}
                                         </a>
                                     @endcan
+                                    @can('randevu_access')
+                                        <a class="dropdown-item ml-3" href="{{ route('frontend.randevus.index') }}">
+                                            {{ trans('cruds.randevu.title') }}
+                                        </a>
+                                    @endcan
                                     @can('site_access')
                                         <a class="dropdown-item disabled" href="#">
                                             {{ trans('cruds.site.title') }}

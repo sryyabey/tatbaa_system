@@ -9,6 +9,7 @@ use App\Http\Requests\StoreCrmDocumentRequest;
 use App\Http\Requests\UpdateCrmDocumentRequest;
 use App\Models\CrmCustomer;
 use App\Models\CrmDocument;
+use App\Models\User;
 use Gate;
 use Illuminate\Http\Request;
 use Spatie\MediaLibrary\MediaCollections\Models\Media;
@@ -22,11 +23,13 @@ class CrmDocumentController extends Controller
     {
         abort_if(Gate::denies('crm_document_access'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
-        $crmDocuments = CrmDocument::with(['customer', 'media'])->get();
+        $crmDocuments = CrmDocument::with(['customer', 'user', 'media'])->get();
 
         $crm_customers = CrmCustomer::get();
 
-        return view('frontend.crmDocuments.index', compact('crmDocuments', 'crm_customers'));
+        $users = User::get();
+
+        return view('frontend.crmDocuments.index', compact('crmDocuments', 'crm_customers', 'users'));
     }
 
     public function create()
@@ -35,7 +38,9 @@ class CrmDocumentController extends Controller
 
         $customers = CrmCustomer::pluck('first_name', 'id')->prepend(trans('global.pleaseSelect'), '');
 
-        return view('frontend.crmDocuments.create', compact('customers'));
+        $users = User::pluck('name', 'id')->prepend(trans('global.pleaseSelect'), '');
+
+        return view('frontend.crmDocuments.create', compact('customers', 'users'));
     }
 
     public function store(StoreCrmDocumentRequest $request)
@@ -59,9 +64,11 @@ class CrmDocumentController extends Controller
 
         $customers = CrmCustomer::pluck('first_name', 'id')->prepend(trans('global.pleaseSelect'), '');
 
-        $crmDocument->load('customer');
+        $users = User::pluck('name', 'id')->prepend(trans('global.pleaseSelect'), '');
 
-        return view('frontend.crmDocuments.edit', compact('customers', 'crmDocument'));
+        $crmDocument->load('customer', 'user');
+
+        return view('frontend.crmDocuments.edit', compact('crmDocument', 'customers', 'users'));
     }
 
     public function update(UpdateCrmDocumentRequest $request, CrmDocument $crmDocument)
@@ -86,7 +93,7 @@ class CrmDocumentController extends Controller
     {
         abort_if(Gate::denies('crm_document_show'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
-        $crmDocument->load('customer');
+        $crmDocument->load('customer', 'user');
 
         return view('frontend.crmDocuments.show', compact('crmDocument'));
     }

@@ -38,6 +38,9 @@
                             {{ trans('cruds.crmDocument.fields.description') }}
                         </th>
                         <th>
+                            {{ trans('cruds.crmDocument.fields.user') }}
+                        </th>
+                        <th>
                             &nbsp;
                         </th>
                     </tr>
@@ -62,6 +65,14 @@
                         </td>
                         <td>
                             <input class="search" type="text" placeholder="{{ trans('global.search') }}">
+                        </td>
+                        <td>
+                            <select class="search">
+                                <option value>{{ trans('global.all') }}</option>
+                                @foreach($users as $key => $item)
+                                    <option value="{{ $item->name }}">{{ $item->name }}</option>
+                                @endforeach
+                            </select>
                         </td>
                         <td>
                         </td>
@@ -91,6 +102,9 @@
                             </td>
                             <td>
                                 {{ $crmDocument->description ?? '' }}
+                            </td>
+                            <td>
+                                {{ $crmDocument->user->name ?? '' }}
                             </td>
                             <td>
                                 @can('crm_document_show')

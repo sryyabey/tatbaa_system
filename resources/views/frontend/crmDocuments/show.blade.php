@@ -62,6 +62,14 @@
                                         {{ $crmDocument->description }}
                                     </td>
                                 </tr>
+                                <tr>
+                                    <th>
+                                        {{ trans('cruds.crmDocument.fields.user') }}
+                                    </th>
+                                    <td>
+                                        {{ $crmDocument->user->name ?? '' }}
+                                    </td>
+                                </tr>
                             </tbody>
                         </table>
                         <div class="form-group">

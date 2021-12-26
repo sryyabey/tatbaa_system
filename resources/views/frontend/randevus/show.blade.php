@@ -6,13 +6,13 @@
 
             <div class="card">
                 <div class="card-header">
-                    {{ trans('global.show') }} {{ trans('cruds.crmNote.title') }}
+                    {{ trans('global.show') }} {{ trans('cruds.randevu.title') }}
                 </div>
 
                 <div class="card-body">
                     <div class="form-group">
                         <div class="form-group">
-                            <a class="btn btn-default" href="{{ route('frontend.crm-notes.index') }}">
+                            <a class="btn btn-default" href="{{ route('frontend.randevus.index') }}">
                                 {{ trans('global.back_to_list') }}
                             </a>
                         </div>
@@ -20,40 +20,56 @@
                             <tbody>
                                 <tr>
                                     <th>
-                                        {{ trans('cruds.crmNote.fields.id') }}
+                                        {{ trans('cruds.randevu.fields.id') }}
                                     </th>
                                     <td>
-                                        {{ $crmNote->id }}
+                                        {{ $randevu->id }}
                                     </td>
                                 </tr>
                                 <tr>
                                     <th>
-                                        {{ trans('cruds.crmNote.fields.customer') }}
+                                        {{ trans('cruds.randevu.fields.customer') }}
                                     </th>
                                     <td>
-                                        {{ $crmNote->customer->first_name ?? '' }}
+                                        {{ $randevu->customer->first_name ?? '' }}
                                     </td>
                                 </tr>
                                 <tr>
                                     <th>
-                                        {{ trans('cruds.crmNote.fields.note') }}
+                                        {{ trans('cruds.randevu.fields.user') }}
                                     </th>
                                     <td>
-                                        {{ $crmNote->note }}
+                                        {{ $randevu->user->name ?? '' }}
                                     </td>
                                 </tr>
                                 <tr>
                                     <th>
-                                        {{ trans('cruds.crmNote.fields.user') }}
+                                        {{ trans('cruds.randevu.fields.date') }}
                                     </th>
                                     <td>
-                                        {{ $crmNote->user->name ?? '' }}
+                                        {{ $randevu->date }}
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <th>
+                                        {{ trans('cruds.randevu.fields.description') }}
+                                    </th>
+                                    <td>
+                                        {{ $randevu->description }}
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <th>
+                                        {{ trans('cruds.randevu.fields.status') }}
+                                    </th>
+                                    <td>
+                                        {{ $randevu->status }}
                                     </td>
                                 </tr>
                             </tbody>
                         </table>
                         <div class="form-group">
-                            <a class="btn btn-default" href="{{ route('frontend.crm-notes.index') }}">
+                            <a class="btn btn-default" href="{{ route('frontend.randevus.index') }}">
                                 {{ trans('global.back_to_list') }}
                             </a>
                         </div>

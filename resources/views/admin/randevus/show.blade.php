@@ -3,13 +3,13 @@
 
 <div class="card">
     <div class="card-header">
-        {{ trans('global.show') }} {{ trans('cruds.crmDocument.title') }}
+        {{ trans('global.show') }} {{ trans('cruds.randevu.title') }}
     </div>
 
     <div class="card-body">
         <div class="form-group">
             <div class="form-group">
-                <a class="btn btn-default" href="{{ route('admin.crm-documents.index') }}">
+                <a class="btn btn-default" href="{{ route('admin.randevus.index') }}">
                     {{ trans('global.back_to_list') }}
                 </a>
             </div>
@@ -17,60 +17,56 @@
                 <tbody>
                     <tr>
                         <th>
-                            {{ trans('cruds.crmDocument.fields.id') }}
+                            {{ trans('cruds.randevu.fields.id') }}
                         </th>
                         <td>
-                            {{ $crmDocument->id }}
+                            {{ $randevu->id }}
                         </td>
                     </tr>
                     <tr>
                         <th>
-                            {{ trans('cruds.crmDocument.fields.customer') }}
+                            {{ trans('cruds.randevu.fields.customer') }}
                         </th>
                         <td>
-                            {{ $crmDocument->customer->first_name ?? '' }}
+                            {{ $randevu->customer->first_name ?? '' }}
                         </td>
                     </tr>
                     <tr>
                         <th>
-                            {{ trans('cruds.crmDocument.fields.document_file') }}
+                            {{ trans('cruds.randevu.fields.user') }}
                         </th>
                         <td>
-                            @if($crmDocument->document_file)
-                                <a href="{{ $crmDocument->document_file->getUrl() }}" target="_blank">
-                                    {{ trans('global.view_file') }}
-                                </a>
-                            @endif
+                            {{ $randevu->user->name ?? '' }}
                         </td>
                     </tr>
                     <tr>
                         <th>
-                            {{ trans('cruds.crmDocument.fields.name') }}
+                            {{ trans('cruds.randevu.fields.date') }}
                         </th>
                         <td>
-                            {{ $crmDocument->name }}
+                            {{ $randevu->date }}
                         </td>
                     </tr>
                     <tr>
                         <th>
-                            {{ trans('cruds.crmDocument.fields.description') }}
+                            {{ trans('cruds.randevu.fields.description') }}
                         </th>
                         <td>
-                            {{ $crmDocument->description }}
+                            {{ $randevu->description }}
                         </td>
                     </tr>
                     <tr>
                         <th>
-                            {{ trans('cruds.crmDocument.fields.user') }}
+                            {{ trans('cruds.randevu.fields.status') }}
                         </th>
                         <td>
-                            {{ $crmDocument->user->name ?? '' }}
+                            {{ $randevu->status }}
                         </td>
                     </tr>
                 </tbody>
             </table>
             <div class="form-group">
-                <a class="btn btn-default" href="{{ route('admin.crm-documents.index') }}">
+                <a class="btn btn-default" href="{{ route('admin.randevus.index') }}">
                     {{ trans('global.back_to_list') }}
                 </a>
             </div>

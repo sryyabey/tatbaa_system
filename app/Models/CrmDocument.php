@@ -32,6 +32,7 @@ class CrmDocument extends Model implements HasMedia
         'customer_id',
         'name',
         'description',
+        'user_id',
         'created_at',
         'updated_at',
         'deleted_at',
@@ -51,6 +52,11 @@ class CrmDocument extends Model implements HasMedia
     public function getDocumentFileAttribute()
     {
         return $this->getMedia('document_file')->last();
+    }
+
+    public function user()
+    {
+        return $this->belongsTo(User::class, 'user_id');
     }
 
     protected function serializeDate(DateTimeInterface $date)

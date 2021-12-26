@@ -35,6 +35,12 @@
                                         {{ trans('cruds.transaction.fields.user') }}
                                     </th>
                                     <th>
+                                        {{ trans('cruds.transaction.fields.customer') }}
+                                    </th>
+                                    <th>
+                                        {{ trans('cruds.crmCustomer.fields.last_name') }}
+                                    </th>
+                                    <th>
                                         &nbsp;
                                     </th>
                                 </tr>
@@ -53,6 +59,12 @@
                                         </td>
                                         <td>
                                             {{ $transaction->user->name ?? '' }}
+                                        </td>
+                                        <td>
+                                            {{ $transaction->customer->first_name ?? '' }}
+                                        </td>
+                                        <td>
+                                            {{ $transaction->customer->last_name ?? '' }}
                                         </td>
                                         <td>
                                             @can('transaction_show')

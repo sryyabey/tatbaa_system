@@ -32,6 +32,9 @@
                             {{ trans('cruds.crmNote.fields.note') }}
                         </th>
                         <th>
+                            {{ trans('cruds.crmNote.fields.user') }}
+                        </th>
+                        <th>
                             &nbsp;
                         </th>
                     </tr>
@@ -50,6 +53,9 @@
                             </td>
                             <td>
                                 {{ $crmNote->note ?? '' }}
+                            </td>
+                            <td>
+                                {{ $crmNote->user->name ?? '' }}
                             </td>
                             <td>
                                 @can('crm_note_show')

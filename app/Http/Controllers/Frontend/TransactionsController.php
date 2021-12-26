@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\MassDestroyTransactionRequest;
 use App\Http\Requests\StoreTransactionRequest;
 use App\Http\Requests\UpdateTransactionRequest;
+use App\Models\CrmCustomer;
 use App\Models\Transaction;
 use App\Models\User;
 use Gate;
@@ -18,7 +19,7 @@ class TransactionsController extends Controller
     {
         abort_if(Gate::denies('transaction_access'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
-        $transactions = Transaction::with(['user'])->get();
+        $transactions = Transaction::with(['user', 'customer'])->get();
 
         return view('frontend.transactions.index', compact('transactions'));
     }
@@ -29,7 +30,9 @@ class TransactionsController extends Controller
 
         $users = User::pluck('name', 'id')->prepend(trans('global.pleaseSelect'), '');
 
-        return view('frontend.transactions.create', compact('users'));
+        $customers = CrmCustomer::pluck('first_name', 'id')->prepend(trans('global.pleaseSelect'), '');
+
+        return view('frontend.transactions.create', compact('customers', 'users'));
     }
 
     public function store(StoreTransactionRequest $request)
@@ -45,9 +48,11 @@ class TransactionsController extends Controller
 
         $users = User::pluck('name', 'id')->prepend(trans('global.pleaseSelect'), '');
 
-        $transaction->load('user');
+        $customers = CrmCustomer::pluck('first_name', 'id')->prepend(trans('global.pleaseSelect'), '');
 
-        return view('frontend.transactions.edit', compact('transaction', 'users'));
+        $transaction->load('user', 'customer');
+
+        return view('frontend.transactions.edit', compact('customers', 'transaction', 'users'));
     }
 
     public function update(UpdateTransactionRequest $request, Transaction $transaction)
@@ -61,7 +66,7 @@ class TransactionsController extends Controller
     {
         abort_if(Gate::denies('transaction_show'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
-        $transaction->load('user');
+        $transaction->load('user', 'customer');
 
         return view('frontend.transactions.show', compact('transaction'));
     }

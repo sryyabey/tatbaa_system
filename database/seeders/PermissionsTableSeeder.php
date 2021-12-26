@@ -372,6 +372,26 @@ class PermissionsTableSeeder extends Seeder
             ],
             [
                 'id'    => 91,
+                'title' => 'randevu_create',
+            ],
+            [
+                'id'    => 92,
+                'title' => 'randevu_edit',
+            ],
+            [
+                'id'    => 93,
+                'title' => 'randevu_show',
+            ],
+            [
+                'id'    => 94,
+                'title' => 'randevu_delete',
+            ],
+            [
+                'id'    => 95,
+                'title' => 'randevu_access',
+            ],
+            [
+                'id'    => 96,
                 'title' => 'profile_password_edit',
             ],
         ];

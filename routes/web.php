@@ -93,6 +93,10 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.', 'namespace' => 'Admin', 'mi
     Route::post('comments/ckmedia', 'CommentsController@storeCKEditorImages')->name('comments.storeCKEditorImages');
     Route::resource('comments', 'CommentsController');
 
+    // Randevu
+    Route::delete('randevus/destroy', 'RandevuController@massDestroy')->name('randevus.massDestroy');
+    Route::resource('randevus', 'RandevuController');
+
     Route::get('global-search', 'GlobalSearchController@search')->name('globalSearch');
     Route::get('messenger', 'MessengerController@index')->name('messenger.index');
     Route::get('messenger/create', 'MessengerController@createTopic')->name('messenger.createTopic');
@@ -200,6 +204,10 @@ Route::group(['as' => 'frontend.', 'namespace' => 'Frontend', 'middleware' => ['
     Route::post('comments/media', 'CommentsController@storeMedia')->name('comments.storeMedia');
     Route::post('comments/ckmedia', 'CommentsController@storeCKEditorImages')->name('comments.storeCKEditorImages');
     Route::resource('comments', 'CommentsController');
+
+    // Randevu
+    Route::delete('randevus/destroy', 'RandevuController@massDestroy')->name('randevus.massDestroy');
+    Route::resource('randevus', 'RandevuController');
 
     Route::get('frontend/profile', 'ProfileController@index')->name('profile.index');
     Route::post('frontend/profile', 'ProfileController@update')->name('profile.update');

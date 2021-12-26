@@ -89,7 +89,7 @@
                     </li>
                 @endcan
                 @can('basic_c_r_m_access')
-                    <li class="nav-item has-treeview {{ request()->is("admin/crm-statuses*") ? "menu-open" : "" }} {{ request()->is("admin/crm-customers*") ? "menu-open" : "" }} {{ request()->is("admin/crm-notes*") ? "menu-open" : "" }} {{ request()->is("admin/crm-documents*") ? "menu-open" : "" }} {{ request()->is("admin/transactions*") ? "menu-open" : "" }} {{ request()->is("admin/trackings*") ? "menu-open" : "" }}">
+                    <li class="nav-item has-treeview {{ request()->is("admin/crm-statuses*") ? "menu-open" : "" }} {{ request()->is("admin/crm-customers*") ? "menu-open" : "" }} {{ request()->is("admin/crm-notes*") ? "menu-open" : "" }} {{ request()->is("admin/crm-documents*") ? "menu-open" : "" }} {{ request()->is("admin/transactions*") ? "menu-open" : "" }} {{ request()->is("admin/trackings*") ? "menu-open" : "" }} {{ request()->is("admin/randevus*") ? "menu-open" : "" }}">
                         <a class="nav-link nav-dropdown-toggle" href="#">
                             <i class="fa-fw nav-icon fas fa-briefcase">
 
@@ -168,6 +168,18 @@
                                         </i>
                                         <p>
                                             {{ trans('cruds.tracking.title') }}
+                                        </p>
+                                    </a>
+                                </li>
+                            @endcan
+                            @can('randevu_access')
+                                <li class="nav-item">
+                                    <a href="{{ route("admin.randevus.index") }}" class="nav-link {{ request()->is("admin/randevus") || request()->is("admin/randevus/*") ? "active" : "" }}">
+                                        <i class="fa-fw nav-icon far fa-calendar-alt">
+
+                                        </i>
+                                        <p>
+                                            {{ trans('cruds.randevu.title') }}
                                         </p>
                                     </a>
                                 </li>

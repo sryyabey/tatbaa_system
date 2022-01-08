@@ -12,8 +12,10 @@ use App\Models\CrmStatus;
 use App\Models\User;
 use Gate;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Spatie\MediaLibrary\MediaCollections\Models\Media;
 use Symfony\Component\HttpFoundation\Response;
+use RealRashid\SweetAlert\Facades\Alert;
 
 class CrmCustomerController extends Controller
 {
@@ -45,6 +47,10 @@ class CrmCustomerController extends Controller
 
     public function store(StoreCrmCustomerRequest $request)
     {
+
+        $request->merge(['birthday',date('Y-m-d',strtotime($request->birthday))]);
+        $request->request->add(['user_id' => Auth::user()->id]);
+
         $crmCustomer = CrmCustomer::create($request->all());
 
         if ($request->input('photo', false)) {
@@ -55,7 +61,10 @@ class CrmCustomerController extends Controller
             Media::whereIn('id', $media)->update(['model_id' => $crmCustomer->id]);
         }
 
-        return redirect()->route('frontend.crm-customers.index');
+        $message= $crmCustomer->first_name." ".$crmCustomer->last_name;
+
+        Alert::success('Kayıt Başarılı', $message);
+        return redirect()->back();
     }
 
     public function edit(CrmCustomer $crmCustomer)
@@ -73,6 +82,7 @@ class CrmCustomerController extends Controller
 
     public function update(UpdateCrmCustomerRequest $request, CrmCustomer $crmCustomer)
     {
+        $request->request->add(['user_id' => Auth::user()->id]);
         $crmCustomer->update($request->all());
 
         if ($request->input('photo', false)) {

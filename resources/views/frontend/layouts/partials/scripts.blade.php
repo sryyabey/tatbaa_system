@@ -35,6 +35,13 @@
 <!-- bootstrap-daterangepicker -->
 <script src="{{ asset('web/vendors/moment/min/moment.min.js') }}"></script>
 <script src="{{ asset('web/vendors/bootstrap-daterangepicker/daterangepicker.js') }}"></script>
+<script src="//cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script>
+<script src="https://cdn.datatables.net/1.10.19/js/dataTables.bootstrap4.min.js"></script>
+<script src="//cdn.datatables.net/buttons/1.2.4/js/dataTables.buttons.min.js"></script>
+<script src="//cdn.datatables.net/buttons/1.2.4/js/buttons.flash.min.js"></script>
+<script src="https://cdn.datatables.net/buttons/1.2.4/js/buttons.html5.min.js"></script>
+<script src="https://cdn.datatables.net/buttons/1.2.4/js/buttons.print.min.js"></script>
+<script src="https://cdn.datatables.net/buttons/1.2.4/js/buttons.colVis.min.js"></script>
 
 <!-- Custom Theme Scripts -->
 <script src="{{ asset('web/js/custom.min.js') }}"></script>

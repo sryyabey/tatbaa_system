@@ -6,14 +6,13 @@
 
 <body class="nav-md">
 <div class="container body">
+    @include('sweetalert::alert')
     <div class="main_container">
     @include('frontend.layouts.partials.navbar')
 
     <!-- page content -->
         <div class="right_col" role="main">
-            <div class="">
-                @yield('content')
-            </div>
+            @yield('content')
         </div>
         <!-- /page content -->
 
@@ -29,4 +28,5 @@
 </div>
 
 @include('frontend.layouts.partials.scripts')
+@yield('script')
 </body></html>

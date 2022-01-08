@@ -21,27 +21,7 @@ class StoreCrmCustomerRequest extends FormRequest
                 'string',
                 'required',
             ],
-            'last_name' => [
-                'string',
-                'nullable',
-            ],
-            'status_id' => [
-                'required',
-                'integer',
-            ],
-            'birthday' => [
-                'date_format:' . config('panel.date_format'),
-                'nullable',
-            ],
-            'email' => [
-                'string',
-                'nullable',
-            ],
             'phone' => [
-                'string',
-                'nullable',
-            ],
-            'address' => [
                 'string',
                 'nullable',
             ],

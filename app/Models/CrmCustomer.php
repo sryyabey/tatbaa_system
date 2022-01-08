@@ -58,15 +58,7 @@ class CrmCustomer extends Model implements HasMedia
         return $this->belongsTo(CrmStatus::class, 'status_id');
     }
 
-    public function getBirthdayAttribute($value)
-    {
-        return $value ? Carbon::parse($value)->format(config('panel.date_format')) : null;
-    }
 
-    public function setBirthdayAttribute($value)
-    {
-        $this->attributes['birthday'] = $value ? Carbon::createFromFormat(config('panel.date_format'), $value)->format('Y-m-d') : null;
-    }
 
     public function getPhotoAttribute()
     {

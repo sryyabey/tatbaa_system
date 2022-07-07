@@ -110,13 +110,15 @@
                                 <td>{{ $customer->first_name }} {{ $customer->last_name }}</td>
                                 <td>{{ $customer->phone }}</td>
                                 <td>
-                                    <a class="btn btn-sm btn-danger" title="{{ trans('global.view') }}" href="{{ route('frontend.crm-customers.show', $customer->id) }}">
+                                    <a type="button" class="btn btn-sm btn-danger" title="{{ trans('global.view') }}" onclick="view(this)" data-url="{{ route('frontend.crm-customers.show', $customer->id) }}" data-toggle="modal" data-target="#exampleModal">
                                         <i class="fa fa-file" title="{{ trans('global.view') }}"></i>
                                     </a>
 
-                                    <a class="btn btn-sm btn-info" href="{{ route('frontend.crm-customers.edit', $customer->id) }}">
+                                    <a type="button" class="btn btn-sm btn-info" title="{{ trans('global.edit') }}" onclick="view(this)" data-url="{{ route('frontend.crm-customers.edit', $customer->id) }}" data-toggle="modal" data-target="#exampleModal">
                                         <i class="fa fa-edit" title="{{ trans('global.edit') }}"></i>
                                     </a>
+
+
 
                                 </td>
                             </tr>
@@ -136,7 +138,5 @@
 @endsection
 
 @section('script')
-    <script>
 
-    </script>
 @endsection

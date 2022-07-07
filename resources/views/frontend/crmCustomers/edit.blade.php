@@ -1,6 +1,4 @@
-@extends('frontend.layouts.app')
 
-@section('content')
     <div class="clearfix"></div>
     <div class="container">
         <div class="row justify-content-center">
@@ -117,7 +115,7 @@
 
                                 <div class="col-md-12">
                                     <div class="form-group">
-                                        <button class="btn btn-danger" type="submit">
+                                        <button class="btn btn-danger btn-block" type="submit">
                                             {{ trans('global.save') }}
                                         </button>
                                     </div>
@@ -130,7 +128,7 @@
             </div>
         </div>
     </div>
-@endsection
+
 
 @section('script')
     <script>

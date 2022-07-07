@@ -34,6 +34,10 @@ class CrmCustomerController extends Controller
         return view('frontend.crmCustomers.index', compact('crmCustomers', 'crm_statuses', 'users'));
     }
 
+    public function find_customer(Request $request){
+
+    }
+
     public function create()
     {
         abort_if(Gate::denies('crm_customer_create'), Response::HTTP_FORBIDDEN, '403 Forbidden');

@@ -45,3 +45,4 @@
 
 <!-- Custom Theme Scripts -->
 <script src="{{ asset('web/js/custom.min.js') }}"></script>
+<script src="{{ asset('js/sryya.js') }}"></script>

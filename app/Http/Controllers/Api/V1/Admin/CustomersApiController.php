@@ -7,7 +7,7 @@ use Illuminate\Http\Request;
 
 class CustomersApiController extends Controller
 {
-    public function customers(){
-
+    public function customers(Request $request){
+       dd($request->all());
     }
 }

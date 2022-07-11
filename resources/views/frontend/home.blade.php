@@ -3,7 +3,15 @@
 @section('content')
     <div class="clearfix"></div>
         <div class="row">
-            <div class="col-md-6 col-sm-6">
+            <div class="col-md-12">
+                <div class="card">
+                    <div class="card-body">
+                        @include('frontend.partials.home_customer_search_form')
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-6 col-sm-6 mt-2">
                 <div class="x_panel">
                     <div class="x_title">
                         <h2>Yeni kayıt <small>Hızlı kayıt</small></h2>
@@ -74,7 +82,7 @@
                 </div>
             </div>
 
-            <div class="col-md-6 col-sm-6  ">
+            <div class="col-md-6 col-sm-6 mt-2">
                 <div class="x_panel">
                     <div class="x_title">
                         <h2>Son Kayıtlar <small>son kaydedilen kullanıcılar</small></h2>
@@ -117,9 +125,6 @@
                                     <a type="button" class="btn btn-sm btn-info" title="{{ trans('global.edit') }}" onclick="view(this)" data-url="{{ route('frontend.crm-customers.edit', $customer->id) }}" data-toggle="modal" data-target="#exampleModal">
                                         <i class="fa fa-edit" title="{{ trans('global.edit') }}"></i>
                                     </a>
-
-
-
                                 </td>
                             </tr>
                             @empty
@@ -138,5 +143,36 @@
 @endsection
 
 @section('script')
+    <script>
+        function clearInput(){
+            $('#name_sr').val("");
+            $('#lastname_sr').val("");
+            $('#phone_sr').val("");
+        };
+
+        $('#name_sr').empty();
+        $('.input-search').keyup(function (){
+            var formData = {
+                name: $("#name_sr").val(),
+                lastname: $("#lastname_sr").val(),
+                phone: $("#phone_sr").val(),
+                _token:$('#token').val()
+            };
+            $.ajax({
+                type: "POST",
+                url: "{{route('frontend.get_customer')}}",
+                data:formData,
+                success: function (res){
+                    $('#customer_table').show();
+                    if (res == false){
+                        $('#customer_table').hide();
+                    }
+                    $('#table_body').empty();
+                    $('#table_body').append(res)
+
+                }
+            });
+        });
+    </script>
 
 @endsection

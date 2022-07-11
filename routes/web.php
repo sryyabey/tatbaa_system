@@ -142,6 +142,7 @@ Route::group(['as' => 'frontend.', 'namespace' => 'Frontend', 'middleware' => ['
     Route::post('crm-customers/media', 'CrmCustomerController@storeMedia')->name('crm-customers.storeMedia');
     Route::post('crm-customers/ckmedia', 'CrmCustomerController@storeCKEditorImages')->name('crm-customers.storeCKEditorImages');
     Route::resource('crm-customers', 'CrmCustomerController');
+    Route::post('get_customer', 'CrmCustomerController@get_customer')->name('get_customer');
 
     // Crm Note
     Route::delete('crm-notes/destroy', 'CrmNoteController@massDestroy')->name('crm-notes.massDestroy');
@@ -222,4 +223,9 @@ Route::group(['namespace' => 'Auth', 'middleware' => ['auth', '2fa']], function 
         Route::post('two-factor', 'TwoFactorController@check')->name('twoFactor.check');
         Route::get('two-factor/resend', 'TwoFactorController@resend')->name('twoFactor.resend');
     }
+});
+
+
+Route::get('generate',function (){
+    \App\Models\CrmCustomer::factory()->count(1000)->create();
 });

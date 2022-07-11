@@ -34,7 +34,20 @@
                                     </a>
                                 </li>
                             @endcan
-
+                                @can('transaction_access')
+                                    <li>
+                                        <a class="dropdown-item ml-3" href="{{ route('frontend.transactions.index') }}">
+                                            {{ trans('cruds.transaction.title') }}
+                                        </a>
+                                    </li>
+                                @endcan
+                                @can('randevu_access')
+                                    <li>
+                                        <a class="dropdown-item ml-3" href="{{ route('frontend.randevus.index') }}">
+                                            {{ trans('cruds.randevu.title') }}
+                                        </a>
+                                    </li>
+                                @endcan
                         </ul>
                     </li>
 

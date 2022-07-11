@@ -30,12 +30,11 @@
                     <hr>
 
                     <div class="card-body container">
-                        <table id="example" class="display" style="width:100%">
+                        <table id="example" class="table table-hover table-responsive-sm" style="width:100%">
                             <thead>
                             <tr>
                                 <th>{{ trans('global.name') }}</th>
                                 <th>{{ trans('global.last_name') }}</th>
-                                <th>{{ trans('cruds.crmCustomer.fields.birthday') }}</th>
                                 <th>{{ trans('global.login_email') }}</th>
                                 <th>{{ trans('global.phone') }}</th>
                                 <th>{{ trans('global.address') }}</th>
@@ -50,9 +49,6 @@
                             </td>
                             <td>
                                 {{ $crmCustomer->last_name ?? '' }}
-                            </td>
-                            <td>
-                                {{ $crmCustomer->birthday ?? '' }}
                             </td>
                             <td>
                                 {{ $crmCustomer->email ?? '' }}
@@ -100,7 +96,6 @@
                             <tr>
                                 <th>{{ trans('global.name') }}</th>
                                 <th>{{ trans('global.last_name') }}</th>
-                                <th>{{ trans('cruds.crmCustomer.fields.birthday') }}</th>
                                 <th>{{ trans('global.login_email') }}</th>
                                 <th>{{ trans('global.phone') }}</th>
                                 <th>{{ trans('global.address') }}</th>
@@ -120,31 +115,66 @@
 @section('script')
 
     @parent
-    <script src="https://code.jquery.com/jquery-3.5.1.js"></script>
     <script src="https://cdn.datatables.net/1.12.1/js/jquery.dataTables.min.js"></script>
     <script src="https://cdn.datatables.net/1.12.1/js/dataTables.bootstrap4.min.js"></script>
     <script>
         $(document).ready(function () {
             // Setup - add a text input to each footer cell
-            $('#example tfoot th').each(function () {
-                var title = $(this).text();
-                $(this).html('<input type="text" placeholder="Search ' + title + '" />');
-            });
+            $('#example thead tr')
+                .clone(true)
+                .addClass('filters')
+                .appendTo('#example thead');
 
-            // DataTable
             var table = $('#example').DataTable({
+                orderCellsTop: true,
+                fixedHeader: true,
                 initComplete: function () {
-                    // Apply the search
-                    this.api()
-                        .columns()
-                        .every(function () {
-                            var that = this;
+                    var api = this.api();
 
-                            $('input', this.footer()).on('keyup change clear', function () {
-                                if (that.search() !== this.value) {
-                                    that.search(this.value).draw();
-                                }
-                            });
+                    // For each column
+                    api
+                        .columns()
+                        .eq(0)
+                        .each(function (colIdx) {
+                            // Set the header cell to contain the input element
+                            var cell = $('.filters th').eq(
+                                $(api.column(colIdx).header()).index()
+                            );
+                            var title = $(cell).text();
+                            $(cell).html('<input type="text" placeholder="' + title + '" />');
+
+                            // On every keypress in this input
+                            $(
+                                'input',
+                                $('.filters th').eq($(api.column(colIdx).header()).index())
+                            )
+                                .off('keyup change')
+                                .on('change', function (e) {
+                                    // Get the search value
+                                    $(this).attr('title', $(this).val());
+                                    var regexr = '({search})'; //$(this).parents('th').find('select').val();
+
+                                    var cursorPosition = this.selectionStart;
+                                    // Search the column for that value
+                                    api
+                                        .column(colIdx)
+                                        .search(
+                                            this.value != ''
+                                                ? regexr.replace('{search}', '(((' + this.value + ')))')
+                                                : '',
+                                            this.value != '',
+                                            this.value == ''
+                                        )
+                                        .draw();
+                                })
+                                .on('keyup', function (e) {
+                                    e.stopPropagation();
+
+                                    $(this).trigger('change');
+                                    $(this)
+                                        .focus()[0]
+                                        .setSelectionRange(cursorPosition, cursorPosition);
+                                });
                         });
                 },
             });

@@ -21,6 +21,24 @@ class CrmCustomerController extends Controller
 {
     use MediaUploadingTrait;
 
+    public function get_customer(Request $request){
+        $name = $request->name ?? null;
+        $lastname = $request->lastname ?? null;
+        $phone = $request->phone ?? null;
+        $user=Auth::id();
+        if (!is_null($name) or !is_null($lastname) or !is_null($phone)){
+            $customers= CrmCustomer::where('user_id',$user)
+                ->where('first_name','like','%'.$name.'%')
+                ->where('last_name','like','%'.$lastname.'%')
+                ->where('phone','like','%'.$phone.'%')->get();
+
+            return view('frontend.partials.customer_list',compact('customers'));
+        }else{
+            return false;
+        }
+
+    }
+
     public function index()
     {
         abort_if(Gate::denies('crm_customer_access'), Response::HTTP_FORBIDDEN, '403 Forbidden');

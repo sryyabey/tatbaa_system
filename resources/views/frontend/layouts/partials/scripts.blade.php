@@ -43,6 +43,7 @@
 <script src="https://cdn.datatables.net/buttons/1.2.4/js/buttons.print.min.js"></script>
 <script src="https://cdn.datatables.net/buttons/1.2.4/js/buttons.colVis.min.js"></script>
 
+
 <!-- Custom Theme Scripts -->
 <script src="{{ asset('web/js/custom.min.js') }}"></script>
 <script src="{{ asset('js/sryya.js') }}"></script>

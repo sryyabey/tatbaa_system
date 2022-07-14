@@ -209,12 +209,16 @@ Route::group(['as' => 'frontend.', 'namespace' => 'Frontend', 'middleware' => ['
     // Randevu
     Route::delete('randevus/destroy', 'RandevuController@massDestroy')->name('randevus.massDestroy');
     Route::resource('randevus', 'RandevuController');
+    Route::get('guick_randevu/{id?}', 'RandevuController@quickRandevu')->name('randevus.quick_randevu');
 
     Route::get('frontend/profile', 'ProfileController@index')->name('profile.index');
     Route::post('frontend/profile', 'ProfileController@update')->name('profile.update');
     Route::post('frontend/profile/destroy', 'ProfileController@destroy')->name('profile.destroy');
     Route::post('frontend/profile/password', 'ProfileController@password')->name('profile.password');
     Route::post('profile/toggle-two-factor', 'ProfileController@toggleTwoFactor')->name('profile.toggle-two-factor');
+
+
+
 });
 Route::group(['namespace' => 'Auth', 'middleware' => ['auth', '2fa']], function () {
     // Two Factor Authentication

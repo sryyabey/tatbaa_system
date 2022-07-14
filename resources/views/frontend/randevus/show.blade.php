@@ -1,5 +1,4 @@
-@extends('layouts.frontend')
-@section('content')
+
 <div class="container">
     <div class="row justify-content-center">
         <div class="col-md-12">
@@ -31,15 +30,16 @@
                                         {{ trans('cruds.randevu.fields.customer') }}
                                     </th>
                                     <td>
-                                        {{ $randevu->customer->first_name ?? '' }}
+                                        {{ $randevu->customer->first_name ?? '' }} <br>
+                                        {{ $randevu->customer->last_name ?? '' }}
                                     </td>
                                 </tr>
                                 <tr>
                                     <th>
-                                        {{ trans('cruds.randevu.fields.user') }}
+                                        {{ trans('cruds.contact.fields.phone') }}
                                     </th>
                                     <td>
-                                        {{ $randevu->user->name ?? '' }}
+                                        {{ $randevu->customer->phone ?? '' }}
                                     </td>
                                 </tr>
                                 <tr>
@@ -80,4 +80,3 @@
         </div>
     </div>
 </div>
-@endsection

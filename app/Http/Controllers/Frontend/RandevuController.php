@@ -11,6 +11,9 @@ use App\Models\Randevu;
 use App\Models\User;
 use Gate;
 use Illuminate\Http\Request;
+use Illuminate\Support\Carbon;
+use Illuminate\Support\Facades\Auth;
+use RealRashid\SweetAlert\Facades\Alert;
 use Symfony\Component\HttpFoundation\Response;
 
 class RandevuController extends Controller
@@ -22,6 +25,15 @@ class RandevuController extends Controller
         $randevus = Randevu::with(['customer', 'user'])->get();
 
         return view('frontend.randevus.index', compact('randevus'));
+    }
+
+    public function quickRandevu($id){
+        abort_if(Gate::denies('randevu_create'), Response::HTTP_FORBIDDEN, '403 Forbidden');
+
+        $customer = CrmCustomer::find($id);
+        $users = User::pluck('name', 'id')->prepend(trans('global.pleaseSelect'), '');
+
+        return view('frontend.randevus.create', compact('customer', 'users'));
     }
 
     public function create()
@@ -37,9 +49,23 @@ class RandevuController extends Controller
 
     public function store(StoreRandevuRequest $request)
     {
-        $randevu = Randevu::create($request->all());
+        //$date=Carbon::createFromFormat('d-m-Y H:s:i',Carbon::parse($request->dates)->format('d-m-Y') . " " . $request->time);
 
-        return redirect()->route('frontend.randevus.index');
+        $date = Carbon::parse($request->dates)->format('Y-m-d')." ".Carbon::parse($request->time)->format('H:s:i');
+        $user_id = Auth::id();
+        $request->request->add(['date'=>$date,'user_id'=>$user_id]);
+        $request->only(['customer_id','user_id','date','time','description']);
+
+        $randevu = Randevu::create([
+            'user_id' => $request->user_id,
+            'customer_id' => $request->customer_id,
+            'date' => date('d-m-Y H:s:i',strtotime($date)),
+            'description' => $request->description
+        ]);
+
+        $message=trans('cruds.randevu.title')." ".trans('global.create_success');
+        Alert::success(' Başarılı', $message);
+        return redirect()->back();
     }
 
     public function edit(Randevu $randevu)

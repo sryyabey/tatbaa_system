@@ -118,15 +118,82 @@
                                 <td>{{ $customer->first_name }} {{ $customer->last_name }}</td>
                                 <td>{{ $customer->phone }}</td>
                                 <td>
-                                    <a type="button" class="btn btn-sm btn-danger" title="{{ trans('global.view') }}" onclick="view(this)" data-url="{{ route('frontend.crm-customers.show', $customer->id) }}" data-toggle="modal" data-target="#exampleModal">
+                                    <a type="button" class="btn btn-sm btn-outline-danger" title="{{ trans('global.view') }}" onclick="view(this)" data-url="{{ route('frontend.crm-customers.show', $customer->id) }}" data-toggle="modal" data-target="#exampleModal">
                                         <i class="fa fa-file" title="{{ trans('global.view') }}"></i>
                                     </a>
 
-                                    <a type="button" class="btn btn-sm btn-info" title="{{ trans('global.edit') }}" onclick="view(this)" data-url="{{ route('frontend.crm-customers.edit', $customer->id) }}" data-toggle="modal" data-target="#exampleModal">
+                                    <a type="button" class="btn btn-sm btn-outline-primary" title="{{ trans('cruds.randevu.title') }}" onclick="view(this)" data-url="{{ route('frontend.randevus.quick_randevu', $customer->id) }}" data-toggle="modal" data-target="#exampleModal">
+                                        <i class="fa fa-calendar-check-o" title="{{ trans('cruds.randevu.title') }}"></i>
+                                    </a>
+
+                                    <a type="button" class="btn btn-sm btn-outline-info" title="{{ trans('global.edit') }}" onclick="view(this)" data-url="{{ route('frontend.crm-customers.edit', $customer->id) }}" data-toggle="modal" data-target="#exampleModal">
                                         <i class="fa fa-edit" title="{{ trans('global.edit') }}"></i>
                                     </a>
                                 </td>
                             </tr>
+                            @empty
+                            @endforelse
+
+                            </tbody>
+                        </table>
+                        <span class="text-left"> <a href="{{ route('frontend.crm-customers.index') }}"> Tüm Liste</a></span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-12 col-sm-12 mt-2">
+                <div class="x_panel">
+                    <div class="x_title">
+                        <h2>Bugünki Randevular<small> {{ date('d-m-Y H:s:i') }} </small></h2>
+                        <ul class="nav navbar-right panel_toolbox">
+                            <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
+                            </li>
+                            <li class="dropdown">
+                                <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"><i class="fa fa-wrench"></i></a>
+                                <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                                    <a class="dropdown-item" href="#">Settings 1</a>
+                                    <a class="dropdown-item" href="#">Settings 2</a>
+                                </div>
+                            </li>
+                            <li><a class="close-link"><i class="fa fa-close"></i></a>
+                            </li>
+                        </ul>
+                        <div class="clearfix"></div>
+                    </div>
+                    <div class="x_content">
+
+                        <table class="table table-bordered">
+                            <thead>
+                            <tr>
+
+                                <th>Ad Soyad</th>
+                                <th>Telefon</th>
+                                <th>Randevu</th>
+                                <th>Açıklama</th>
+                                <th>işlem</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            @forelse($randevular as $customer)
+                                <tr @if($customer->date < date('d-m-Y H:s:i')) class="bg-success" @endif>
+                                    <td>{{ $customer->customer->first_name }} {{ $customer->customer->last_name }}</td>
+                                    <td>{{ $customer->customer->phone }}</td>
+                                    <td>{{ $customer->date }}</td>
+                                    <td>{{ $customer->description }}</td>
+                                    <td>
+                                        <a type="button" class="btn btn-sm btn-outline-danger" title="{{ trans('global.view') }}" onclick="view(this)" data-url="{{ route('frontend.randevus.show', $customer->id) }}" data-toggle="modal" data-target="#exampleModal">
+                                            <i class="fa fa-file" title="{{ trans('global.view') }}"></i>
+                                        </a>
+
+                                        <a type="button" class="btn btn-sm btn-outline-primary" title="{{ trans('cruds.randevu.title') }}" onclick="view(this)" data-url="{{ route('frontend.randevus.quick_randevu', $customer->id) }}" data-toggle="modal" data-target="#exampleModal">
+                                            <i class="fa fa-calendar-check-o" title="{{ trans('cruds.randevu.title') }}"></i>
+                                        </a>
+
+                                        <a type="button" class="btn btn-sm btn-outline-info" title="{{ trans('global.edit') }}" onclick="view(this)" data-url="{{ route('frontend.randevus.edit', $customer->id) }}" data-toggle="modal" data-target="#exampleModal">
+                                            <i class="fa fa-edit" title="{{ trans('global.edit') }}"></i>
+                                        </a>
+                                    </td>
+                                </tr>
                             @empty
                             @endforelse
 
@@ -148,30 +215,41 @@
             $('#name_sr').val("");
             $('#lastname_sr').val("");
             $('#phone_sr').val("");
+            $('#table_body').empty();
+            $('#customer_table').hide();
         };
 
         $('#name_sr').empty();
         $('.input-search').keyup(function (){
+            const name=$("#name_sr").val();
+            const lastname=$("#lastname_sr").val();
+            const phone=$("#phone_sr").val();
             var formData = {
-                name: $("#name_sr").val(),
-                lastname: $("#lastname_sr").val(),
-                phone: $("#phone_sr").val(),
+                name: name,
+                lastname: lastname,
+                phone: phone,
                 _token:$('#token').val()
             };
-            $.ajax({
-                type: "POST",
-                url: "{{route('frontend.get_customer')}}",
-                data:formData,
-                success: function (res){
-                    $('#customer_table').show();
-                    if (res == false){
-                        $('#customer_table').hide();
-                    }
-                    $('#table_body').empty();
-                    $('#table_body').append(res)
+            if (name.length >= 3 || lastname.length >= 3 || phone.length >= 3 ){
+                $.ajax({
+                    type: "POST",
+                    url: "{{route('frontend.get_customer')}}",
+                    data:formData,
+                    success: function (res){
+                        $('#customer_table').show();
+                        if (res == false){
 
-                }
-            });
+                        }
+                        $('#table_body').empty();
+                        $('#table_body').append(res)
+
+                    }
+                });
+            }else if (name.length < 3 || lastname.length < 3 || phone.length < 3 ){
+                $('#table_body').empty();
+                $('#customer_table').hide();
+            }
+
         });
     </script>
 
